@@ -19,6 +19,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string data
+   * @return  void
    */
   public function onPings($connection, $data) { }
 
@@ -30,6 +31,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   peer.irc.IRCConnection connection
    * @param   string server
    * @param   int port
+   * @return  void
    */
   public function onConnect($connection, $server, $port) { }
 
@@ -42,6 +44,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   peer.irc.IRCConnection connection
    * @param   string server
    * @param   int port
+   * @return  void
    */
   public function onDisconnect($connection, $server, $port) { }
   
@@ -52,6 +55,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string server
    * @param   string target whom the message is for
    * @param   string data
+   * @return  void
    */
   public function onMOTDStart($connection, $server, $target, $data) { }
 
@@ -62,6 +66,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string server
    * @param   string target whom the message is for
    * @param   string data
+   * @return  void
    */
   public function onMOTD($connection, $server, $target, $data) { }
 
@@ -72,6 +77,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string server
    * @param   string target whom the message is for
    * @param   string data
+   * @return  void
    */
   public function onEndOfMOTD($connection, $server, $target, $data) { }
   
@@ -83,6 +89,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   int code one of the IRC_* constants from peer.irc.IRCConstants
    * @param   string target whom the message is for
    * @param   string data
+   * @return  void
    */
   public function onServerMessage($connection, $server, $code, $target, $data) { }
 
@@ -92,14 +99,16 @@ abstract class IRCConnectionListener extends \lang\Object {
    * you know their password!
    *
    * Example: Join if we're invited:
-   * <code>
-   *   $connection->join($channel);
-   * </code>
+   * 
+   * ```php
+   * $connection->join($channel);
+   * ```
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string nick sending the invitation
    * @param   string who who is invited
    * @param   string channel invitation is for
+   * @return  void
    */
   public function onInvite($connection, $nick, $who, $channel) { }
 
@@ -107,17 +116,19 @@ abstract class IRCConnectionListener extends \lang\Object {
    * Callback for kicks
    *
    * Example (identifying being kicked):
-   * <code>
-   *   if (strcasecmp($who, $connection->user->getNick()) == 0) {
-   *     // ... I was kicked ...
-   *   }
-   * </code>
+   * 
+   * ```php
+   * if (strcasecmp($who, $connection->user->getNick()) == 0) {
+   *   // ... I was kicked ...
+   * }
+   * ```
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string channel the channel the user was kicked from
    * @param   string nick that initiated the kick
    * @param   string who who was kicked
    * @param   string reason what reason the user was kicked for
+   * @return  void
    */
   public function onKicks($connection, $channel, $nick, $who, $reason) { }
 
@@ -128,6 +139,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string channel the channel the user quit from
    * @param   string nick who quit
    * @param   string reason what reason the user supplied for quitting
+   * @return  void
    */
   public function onQuits($connection, $channel, $nick, $reason) { }
 
@@ -137,6 +149,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   peer.irc.IRCConnection connection
    * @param   string nick the old nick
    * @param   string new the new nick
+   * @return  void
    */
   public function onNickChanges($connection, $nick, $new) { }
 
@@ -144,17 +157,19 @@ abstract class IRCConnectionListener extends \lang\Object {
    * Callback for joins
    *
    * Example (welcome users)
-   * <code>
-   *   // Send it to the channel so everybody knows
-   *   $connection->sendMessage($channel, 'Welcome %s', $nick);
+   * 
+   * ```php
+   * // Send it to the channel so everybody knows
+   * $connection->sendMessage($channel, 'Welcome %s', $nick);
    *
-   *   // Send it to the joinee privately
-   *   $connection->sendMessage($nick, 'Welcome!');
-   * </code>
+   * // Send it to the joinee privately
+   * $connection->sendMessage($nick, 'Welcome!');
+   * ```
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string channel which channel was joined
    * @param   string nick who joined
+   * @return  void
    */
   public function onJoins($connection, $channel, $nick) { }
 
@@ -165,6 +180,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string channel which channel was part
    * @param   string nick who part
    * @param   string message the part message, if any
+   * @return  void
    */
   public function onParts($connection, $channel, $nick, $message) { }
   
@@ -176,6 +192,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string target what the mode setting is for (e.g. +k #channel, +i user)
    * @param   string mode the mode including a + or - as its first letter
    * @param   string params additional parameters
+   * @return  void
    */
   public function onModeChanges($connection, $nick, $target, $mode, $params) { }
 
@@ -183,19 +200,21 @@ abstract class IRCConnectionListener extends \lang\Object {
    * Callback for private messages
    *
    * Example (implementing "commands"):
-   * <code>
-   *   if (sscanf($message, "!%s %[^\r]", $command, $params)) {
-   *     switch (strtolower($command)) {
-   *       case 'status':
-   *         // ...
-   *     }
+   *
+   * ```php
+   * if (sscanf($message, "!%s %[^\r]", $command, $params)) {
+   *   switch (strtolower($command)) {
+   *     case 'status':
+   *       // ...
    *   }
-   * </code>
+   * }
+   * ```
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string nick
    * @param   string target
    * @param   string message
+   * @return  void
    */
   public function onPrivateMessage($connection, $nick, $target, $message) { }
 
@@ -206,6 +225,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick who changed the topic
    * @param   string channel what channel the topic was changed for
    * @param   string topic the new topic
+   * @return  void
    */
   public function onTopic($connection, $nick, $channel, $topic) { }
 
@@ -216,6 +236,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick
    * @param   string target
    * @param   string message
+   * @return  void
    */
   public function onNotice($connection, $nick, $target, $message) { }
 
@@ -224,14 +245,16 @@ abstract class IRCConnectionListener extends \lang\Object {
    * in their IRC window.
    *
    * Example (annoying:)):
-   * <code>
-   *   $connection->sendAction($target, 'imitates %s and %s, too', $nick, $params);
-   * </code>
+   * 
+   * ```php
+   * $connection->sendAction($target, 'imitates %s and %s, too', $nick, $params);
+   * ```
    *
    * @param   peer.irc.IRCConnection connection
    * @param   string nick who initiated the action
    * @param   string target where action was initiated
    * @param   string action what actually happened (e.g. "looks around")
+   * @return  void
    */
   public function onAction($connection, $nick, $target, $action) { }
 
@@ -242,6 +265,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting version
    * @param   string target where version was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onVersion($connection, $nick, $target, $params) { }
 
@@ -252,6 +276,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting user information
    * @param   string target where user information was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onUserInfo($connection, $nick, $target, $params) { }
 
@@ -262,6 +287,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting client information
    * @param   string target where client information was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onClientInfo($connection, $nick, $target, $params) { }
 
@@ -272,6 +298,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting ping
    * @param   string target where ping was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onPing($connection, $nick, $target, $params) { }
 
@@ -282,6 +309,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting time
    * @param   string target where time was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onTime($connection, $nick, $target, $params) { }
 
@@ -292,6 +320,7 @@ abstract class IRCConnectionListener extends \lang\Object {
    * @param   string nick nick requesting finger information
    * @param   string target where finger information was requested
    * @param   string params additional parameters
+   * @return  void
    */
   public function onFinger($connection, $nick, $target, $params) { }
 
